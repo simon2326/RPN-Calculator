@@ -4,6 +4,7 @@
 
 float stack[8];
 
+/*Print the stack*/
 void showstack(float _stack[])
 {
     for (int i = 8; i > 0; i--)
@@ -13,6 +14,7 @@ void showstack(float _stack[])
     }
 }
 
+/*Move the stack up*/
 void risestack()
 {
     for (int i = 1; i < 8; i++)
@@ -21,6 +23,7 @@ void risestack()
     }
 }
 
+/*Move the stack down*/
 void downstack()
 {
     for (int i = 7; i > 0; i--)
@@ -33,13 +36,12 @@ char operations()
 {
     char op;
     printf("Select the operator\n [+] - Addition\n [-] - Subtraction\n [*] - Multiplication\n [/] - Division\n [r] - (√) Square root\n [p] - (x²) Power\n [s] - Sin(x)\n [c] - Cos(x)\n [t] - Tan(x)\n [l] - Ln(x)\n");
-    op = getchar();
+    scanf("%s", &op);
     if (op != '+' && op != '-' && op != '*' && op != '/' && op != 'r' && op != 'p' && op != 's' && op != 'c' && op != 't' && op != 'l')
     {
         printf("You selected a non-defined operation\n");
         operations();
     }
-    // printf("%c\n\n\n", op);
     return op;
 }
 
@@ -53,8 +55,8 @@ int menu(void)
 
 int main()
 {
-    // showstack(stack);
     int choice;
+    float answer;
     do
     {
         choice = menu();
@@ -68,13 +70,68 @@ int main()
             stack[7] = number;
             showstack(stack);
             break;
+
         case 2:
-            // char op = operations();
             switch (operations())
             {
             case '+':
-                stack[7] = stack[7] + stack[6];
-                // downstack();
+                answer = stack[6] + stack[7];
+                downstack();
+                stack[7] = answer;
+                break;
+
+            case '-':
+                answer = stack[6] - stack[7];
+                downstack();
+                stack[7] = answer;
+                break;
+
+            case '*':
+                answer = stack[6] * stack[7];
+                downstack();
+                stack[7] = answer;
+                break;
+
+            case '/':
+                answer = stack[6] / stack[7];
+                downstack();
+                stack[7] = answer;
+                break;
+
+            case 'r':
+                answer = stack[6] / stack[7];
+                downstack();
+                stack[7] = answer;
+                break;
+
+            case 'p':
+                answer = stack[6] / stack[7];
+                downstack();
+                stack[7] = answer;
+                break;
+
+            case 's':
+                answer = stack[6] / stack[7];
+                downstack();
+                stack[7] = answer;
+                break;
+
+            case 'c':
+                answer = stack[6] / stack[7];
+                downstack();
+                stack[7] = answer;
+                break;
+
+            case 't':
+                answer = stack[6] / stack[7];
+                downstack();
+                stack[7] = answer;
+                break;
+
+            case 'l':
+                answer = stack[6] / stack[7];
+                downstack();
+                stack[7] = answer;
                 break;
 
             default:
@@ -82,15 +139,19 @@ int main()
             }
             showstack(stack);
             break;
+
         case 3:
             printf("holi");
             break;
+
         case 4:
             printf("holi");
             break;
+
         case 5:
             printf("bai");
             break;
+
         default:
             break;
         }
