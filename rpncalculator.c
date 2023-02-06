@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 
-float stack[8];
+float stack[8]; // Stack
 
 /*Print the stack*/
 void showstack(float _stack[])
@@ -32,19 +32,27 @@ void downstack()
     }
 }
 
+float degtorad(float degrees)
+{
+    float rad = (degrees * M_PI) / 180;
+    return rad;
+}
+
+/*Operations menu offered by the RPN Calculatoror -chars*/
 char operations()
 {
     char op;
-    printf("Select the operator\n [+] - Addition\n [-] - Subtraction\n [*] - Multiplication\n [/] - Division\n [r] - (√) Square root\n [p] - (x²) Power\n [s] - Sin(x)\n [c] - Cos(x)\n [t] - Tan(x)\n [l] - Ln(x)\n");
+    printf("Select the operator\n [+] - Addition\n [-] - Subtraction\n [*] - Multiplication\n [/] - Division\n [r] - (√) Square root\n [p] - (x^y) Power\n [s] - Sin(x)\n [c] - Cos(x)\n [t] - Tan(x)\n [l] - Ln(x)\n");
     scanf("%s", &op);
     if (op != '+' && op != '-' && op != '*' && op != '/' && op != 'r' && op != 'p' && op != 's' && op != 'c' && op != 't' && op != 'l')
     {
-        printf("You selected a non-defined operation\n");
+        printf("You selected a non-defined operation, choose one of the operations below\n");
         operations();
     }
     return op;
 }
 
+/*Option menu*/
 int menu(void)
 {
     int opt;
@@ -56,80 +64,84 @@ int menu(void)
 int main()
 {
     int choice;
+    float rad;
     float answer;
     do
     {
         choice = menu();
         switch (choice)
         {
-        case 1:
+        case 1: /*Enter a number to the stack*/
             float number;
             printf("Enter the number please");
             scanf("%f", &number);
-            risestack();
+            risestack(); /*When the user enters the number, the stack goes up so the input can be shown in the stack[7] position*/
             stack[7] = number;
             showstack(stack);
             break;
 
         case 2:
-            switch (operations())
+            switch (operations()) /*Switch for the chosen char (operation)*/
             {
-            case '+':
+            case '+': /*Addition*/
                 answer = stack[6] + stack[7];
                 downstack();
                 stack[7] = answer;
                 break;
 
-            case '-':
+            case '-': /*Substraction*/
                 answer = stack[6] - stack[7];
                 downstack();
                 stack[7] = answer;
                 break;
 
-            case '*':
+            case '*': /*Multiplication*/
                 answer = stack[6] * stack[7];
                 downstack();
                 stack[7] = answer;
                 break;
 
-            case '/':
+            case '/': /*Division*/
                 answer = stack[6] / stack[7];
                 downstack();
                 stack[7] = answer;
                 break;
 
-            case 'r':
-                answer = stack[6] / stack[7];
+            case 'r': /*Square root*/
+                answer = sqrt(stack[7]);
                 downstack();
                 stack[7] = answer;
                 break;
 
-            case 'p':
-                answer = stack[6] / stack[7];
+            case 'p': /*x to the power of y*/
+                answer = pow(stack[6], stack[7]);
                 downstack();
                 stack[7] = answer;
                 break;
 
-            case 's':
-                answer = stack[6] / stack[7];
+            case 's': /*sin(x)*/
+                rad = degtorad(stack[7]);
+                answer = sin(rad);
                 downstack();
                 stack[7] = answer;
                 break;
 
-            case 'c':
-                answer = stack[6] / stack[7];
+            case 'c': /*cos(x)*/
+                rad = degtorad(stack[7]);
+                answer = cos(rad);
                 downstack();
                 stack[7] = answer;
                 break;
 
-            case 't':
-                answer = stack[6] / stack[7];
+            case 't': /*tan(x)*/
+                rad = degtorad(stack[7]);
+                answer = tan(rad);
                 downstack();
                 stack[7] = answer;
                 break;
 
-            case 'l':
-                answer = stack[6] / stack[7];
+            case 'l': /*ln(x)*/
+                answer = log(stack[7]);
                 downstack();
                 stack[7] = answer;
                 break;
@@ -140,15 +152,15 @@ int main()
             showstack(stack);
             break;
 
-        case 3:
+        case 3: /*Clear the last value - stack[7]*/
             printf("holi");
             break;
 
-        case 4:
+        case 4: /*Clear everything - Clear the stack*/
             printf("holi");
             break;
 
-        case 5:
+        case 5: /*Exit*/
             printf("bai");
             break;
 
