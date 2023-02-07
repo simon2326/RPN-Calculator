@@ -167,8 +167,8 @@ int main()
                 stack[7] = answer;
                 break;
 
-            case 't':                        /*tan(x)*/
-                if ((int)cos(stack[7]) == 0) // tan(x) = sin(x)/cos(x) -> If cos(x) == 0 then tan(x) doesn't exist.
+            case 't':                   /*tan(x)*/
+                if (cos(stack[7]) == 0) // tan(x) = sin(x)/cos(x) -> If cos(x) == 0 then tan(x) doesn't exist.
                 {
                     printf("\033[2J");
                     printf("Math Error!\n");
