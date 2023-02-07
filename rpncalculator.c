@@ -45,7 +45,7 @@ char operations()
 {
     char op;
     printf("Select the operator\n [+] - Addition\n [-] - Subtraction\n [*] - Multiplication\n [/] - Division\n [r] - (√) Square root\n [p] - (x^y) Power\n [s] - Sin(x)\n [c] - Cos(x)\n [t] - Tan(x)\n [l] - Ln(x)\n");
-    scanf("%s", &op);
+    scanf(" %c", &op);
     if (op != '+' && op != '-' && op != '*' && op != '/' && op != 'r' && op != 'p' && op != 's' && op != 'c' && op != 't' && op != 'l')
     {
         printf("You selected a non-defined operation, choose one of the operations below\n");
@@ -58,8 +58,19 @@ char operations()
 int menu(void)
 {
     int opt;
-    printf("Choose an option\n 1. Enter a number\n 2. Select operation\n 3. Clear last\n 4. Clear everything\n 5. Exit\n --> ");
-    scanf("%d", &opt);
+    char x;
+    do
+    {
+        printf("Choose an option\n 1. Enter a number\n 2. Select operation\n 3. Clear last\n 4. Clear everything\n 5. Exit\n --> ");
+        scanf("%d", &opt);
+        printf("\n");
+    } while ((x = getchar()) != '\n' && x != EOF);
+
+    if (opt != 1 && opt != 2 && opt != 3 && opt != 4 && opt != 5)
+    {
+        printf("You selected an option thats is not on the menu, please select other\n\n");
+        menu();
+    }
     return opt;
 }
 
@@ -171,20 +182,27 @@ int main()
             default:
                 break;
             }
+            printf("\033[2J");
             showstack(stack);
             break;
 
         case 3: /*Clear the last value - stack[7]*/
             downstack();
+            printf("\033[2J");
             showstack(stack);
             break;
 
         case 4: /*Clear everything - Clear the stack*/
-
+            for (int i = 7; i >= 0; i--)
+            {
+                stack[i] = 0;
+            }
+            printf("\033[2J");
+            showstack(stack);
             break;
 
         case 5: /*Exit*/
-            printf("bai");
+            printf("Thanks for using the RPN Calculator");
             break;
 
         default:
