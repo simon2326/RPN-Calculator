@@ -64,7 +64,7 @@ int menu(void)
         printf("Choose an option\n 1. Enter a number\n 2. Select operation\n 3. Clear last\n 4. Clear everything\n 5. Exit\n --> ");
         scanf("%d", &opt);
         printf("\n");
-    } while ((x = getchar()) != '\n' && x != EOF);
+    } while ((x = getchar()) != '\n' && x != EOF); /*Do while for avoiding chars and infinite loops*/
 
     if (opt != 1 && opt != 2 && opt != 3 && opt != 4 && opt != 5)
     {
@@ -120,8 +120,9 @@ int main()
             case '/': /*Division*/
                 if (stack[7] == 0)
                 {
+                    printf("\033[2J");
                     printf("Math Error!\n");
-                    printf("Division by 0 isn't defined\n");
+                    printf("Division by 0 isn't defined\n\n");
                 }
                 answer = stack[6] / stack[7];
                 downstack();
@@ -136,6 +137,7 @@ int main()
                 }
                 else
                 {
+                    printf("\033[2J");
                     printf("Math Error!\n");
                     printf("The domain of the square root is only defined for positive numbers and 0\n");
                     printf("This calculator doesn't operate with imaginary numbers, try with a positive number\n\n");
@@ -163,8 +165,9 @@ int main()
             case 't':                        /*tan(x)*/
                 if ((int)cos(stack[7]) == 0) // tan(x) = sin(x)/cos(x) -> If cos(x) == 0 then tan(x) doesn't exist.
                 {
+                    printf("\033[2J");
                     printf("Math Error!\n");
-                    printf("Tan(x) function isn't defined for 90 neither 270\n");
+                    printf("Tan(x) function isn't defined for 90 neither 270 ...\n\n");
                 }
                 else
                 {
@@ -175,8 +178,16 @@ int main()
                 break;
 
             case 'l': /*ln(x)*/
-                answer = log(stack[7]);
-                stack[7] = answer;
+                if (stack[7] <= 0)
+                {
+                    printf("\033[2J");
+                    printf("Ln isn't defined for negative numbers or 0 Domain -> (0,inf)\n\n");
+                }
+                else
+                {
+                    answer = log(stack[7]);
+                    stack[7] = answer;
+                }
                 break;
 
             default:
