@@ -12,6 +12,7 @@ void showstack(float _stack[])
         printf("|%d| -> ", i);
         printf("%f\n", _stack[8 - i]);
     }
+    printf("\n\n");
 }
 
 /*Move the stack up*/
@@ -32,9 +33,10 @@ void downstack()
     }
 }
 
-float degtorad(float degrees)
+/*Parse degrees to radians*/
+double degtorad(float degrees)
 {
-    float rad = (degrees * M_PI) / 180;
+    double rad = (degrees * M_PI) / 180;
     return rad;
 }
 
@@ -64,8 +66,10 @@ int menu(void)
 int main()
 {
     int choice;
-    float rad;
     float answer;
+    double rad;
+    printf("\033[2J");
+    showstack(stack);
     do
     {
         choice = menu();
@@ -73,10 +77,11 @@ int main()
         {
         case 1: /*Enter a number to the stack*/
             float number;
-            printf("Enter the number please");
+            printf("Enter the number please\n");
             scanf("%f", &number);
             risestack(); /*When the user enters the number, the stack goes up so the input can be shown in the stack[7] position*/
             stack[7] = number;
+            printf("\033[2J");
             showstack(stack);
             break;
 
@@ -102,15 +107,28 @@ int main()
                 break;
 
             case '/': /*Division*/
+                if (stack[7] == 0)
+                {
+                    printf("Math Error!\n");
+                    printf("Division by 0 isn't defined\n");
+                }
                 answer = stack[6] / stack[7];
                 downstack();
                 stack[7] = answer;
                 break;
 
             case 'r': /*Square root*/
-                answer = sqrt(stack[7]);
-                downstack();
-                stack[7] = answer;
+                if (stack[7] >= 0)
+                {
+                    answer = sqrt(stack[7]);
+                    stack[7] = answer;
+                }
+                else
+                {
+                    printf("Math Error!\n");
+                    printf("The domain of the square root is only defined for positive numbers and 0\n");
+                    printf("This calculator doesn't operate with imaginary numbers, try with a positive number\n\n");
+                }
                 break;
 
             case 'p': /*x to the power of y*/
@@ -122,27 +140,31 @@ int main()
             case 's': /*sin(x)*/
                 rad = degtorad(stack[7]);
                 answer = sin(rad);
-                downstack();
                 stack[7] = answer;
                 break;
 
             case 'c': /*cos(x)*/
                 rad = degtorad(stack[7]);
                 answer = cos(rad);
-                downstack();
                 stack[7] = answer;
                 break;
 
             case 't': /*tan(x)*/
-                rad = degtorad(stack[7]);
-                answer = tan(rad);
-                downstack();
-                stack[7] = answer;
+                if (stack[7] == 90 || stack[7] == 270)
+                {
+                    printf("Math Error!\n");
+                    printf("Tan(x) function isn't defined for 90 neither 270\n");
+                }
+                else
+                {
+                    rad = degtorad(stack[7]);
+                    answer = tan(rad);
+                    stack[7] = answer;
+                }
                 break;
 
             case 'l': /*ln(x)*/
                 answer = log(stack[7]);
-                downstack();
                 stack[7] = answer;
                 break;
 
@@ -153,11 +175,12 @@ int main()
             break;
 
         case 3: /*Clear the last value - stack[7]*/
-            printf("holi");
+            downstack();
+            showstack(stack);
             break;
 
         case 4: /*Clear everything - Clear the stack*/
-            printf("holi");
+
             break;
 
         case 5: /*Exit*/
