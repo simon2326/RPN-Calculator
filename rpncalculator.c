@@ -160,8 +160,8 @@ int main()
                 stack[7] = answer;
                 break;
 
-            case 't': /*tan(x)*/
-                if (stack[7] == 90 || stack[7] == 270)
+            case 't':                        /*tan(x)*/
+                if ((int)cos(stack[7]) == 0) // tan(x) = sin(x)/cos(x) -> If cos(x) == 0 then tan(x) doesn't exist.
                 {
                     printf("Math Error!\n");
                     printf("Tan(x) function isn't defined for 90 neither 270\n");
@@ -182,7 +182,6 @@ int main()
             default:
                 break;
             }
-            printf("\033[2J");
             showstack(stack);
             break;
 
