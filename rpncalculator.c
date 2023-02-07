@@ -46,8 +46,10 @@ char operations()
     char op;
     printf("Select the operator\n [+] - Addition\n [-] - Subtraction\n [*] - Multiplication\n [/] - Division\n [r] - (√) Square root\n [p] - (x^y) Power\n [s] - Sin(x)\n [c] - Cos(x)\n [t] - Tan(x)\n [l] - Ln(x)\n");
     scanf(" %c", &op);
+    printf("\033[2J");
     if (op != '+' && op != '-' && op != '*' && op != '/' && op != 'r' && op != 'p' && op != 's' && op != 'c' && op != 't' && op != 'l')
     {
+        printf("\033[2J");
         printf("You selected a non-defined operation, choose one of the operations below\n");
         operations();
     }
@@ -124,9 +126,12 @@ int main()
                     printf("Math Error!\n");
                     printf("Division by 0 isn't defined\n\n");
                 }
-                answer = stack[6] / stack[7];
-                downstack();
-                stack[7] = answer;
+                else
+                {
+                    answer = stack[6] / stack[7];
+                    downstack();
+                    stack[7] = answer;
+                }
                 break;
 
             case 'r': /*Square root*/
